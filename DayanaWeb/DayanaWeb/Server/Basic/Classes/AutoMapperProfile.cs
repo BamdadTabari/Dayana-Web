@@ -9,8 +9,13 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<Post, PostDto>().ReverseMap();
-        CreateMap<PostCategory, PostCategoryDto>().ReverseMap();
-        CreateMap<PaginatedList<PostCategory>, PaginatedList<PostCategoryDto>>().ReverseMap();
+        #region Blog
+
+        CreateMap<PostEntity, PostDto>().ReverseMap();
+        CreateMap<PostCategoryEntity, PostCategoryDto>().ReverseMap();
+        CreateMap<PaginatedList<PostCategoryEntity>, PaginatedList<PostCategoryDto>>().ReverseMap();
+        CreateMap<PaginatedList<PostEntity>, PaginatedList<PostDto>>().ReverseMap();
+
+        #endregion
     }
 }

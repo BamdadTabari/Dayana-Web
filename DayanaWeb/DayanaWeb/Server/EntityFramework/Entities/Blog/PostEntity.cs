@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DayanaWeb.Server.EntityFramework.Entities.Blog;
-public class Post : BaseEntity
+public class PostEntity : BaseEntity
 {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -11,13 +11,13 @@ public class Post : BaseEntity
     public string Content { get; set; }
 
     public long PostCategoryId { get; set; }
-    public PostCategory PostCategory { get; set; }
-    public List<PostFeedBack> PostFeedBacks { get; set; }
+    public PostCategoryEntity PostCategory { get; set; }
+    public List<PostFeedBackEntity> PostFeedBacks { get; set; }
 }
 
-public class PostEntityConfiguration : IEntityTypeConfiguration<Post>
+public class PostEntityConfiguration : IEntityTypeConfiguration<PostEntity>
 {
-    public void Configure(EntityTypeBuilder<Post> builder)
+    public void Configure(EntityTypeBuilder<PostEntity> builder)
     {
         #region Properties features
 

@@ -1,11 +1,10 @@
 ﻿using DayanaWeb.Server.EntityFramework.Entities.Blog;
 using DayanaWeb.Shared.Basic.Classes;
-using static MudBlazor.CategoryTypes;
 
 namespace DayanaWeb.Server.EntityFramework.Extensions.Blog;
 public static class PostQueryableExtension
 {
-    public static IQueryable<Post> ApplyFilter(this IQueryable<Post> query, DefaultPaginationFilter filter)
+    public static IQueryable<PostEntity> ApplyFilter(this IQueryable<PostEntity> query, DefaultPaginationFilter filter)
     {
         if (!string.IsNullOrEmpty(filter.Keyword))
             query = query.Where(x => x.Description.ToLower().Contains(filter.Keyword.ToLower().Trim()));
@@ -19,7 +18,7 @@ public static class PostQueryableExtension
         return query;
     }
 
-    public static IQueryable<Post> ApplySort(this IQueryable<Post> query, SortByEnum? sortBy)
+    public static IQueryable<PostEntity> ApplySort(this IQueryable<PostEntity> query, SortByEnum? sortBy)
     {
         return sortBy switch
         {

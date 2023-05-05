@@ -4,7 +4,7 @@ using DayanaWeb.Shared.Basic.Classes;
 namespace DayanaWeb.Server.EntityFramework.Extensions.Blog;
 public static class PostFeedBackQueryableExtension
 {
-    public static IQueryable<PostFeedBack> ApplyFilter(this IQueryable<PostFeedBack> query, DefaultPaginationFilter filter)
+    public static IQueryable<PostFeedBackEntity> ApplyFilter(this IQueryable<PostFeedBackEntity> query, DefaultPaginationFilter filter)
     {
         if (!string.IsNullOrEmpty(filter.Keyword))
             query = query.Where(x => x.CommentText.ToLower().Contains(filter.Keyword.ToLower().Trim()));
@@ -15,7 +15,7 @@ public static class PostFeedBackQueryableExtension
         return query;
     }
 
-    public static IQueryable<PostFeedBack> ApplySort(this IQueryable<PostFeedBack> query, SortByEnum? sortBy)
+    public static IQueryable<PostFeedBackEntity> ApplySort(this IQueryable<PostFeedBackEntity> query, SortByEnum? sortBy)
     {
         return sortBy switch
         {

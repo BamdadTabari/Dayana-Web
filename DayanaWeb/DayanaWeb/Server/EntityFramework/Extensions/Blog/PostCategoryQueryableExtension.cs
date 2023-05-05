@@ -5,7 +5,7 @@ namespace DayanaWeb.Server.EntityFramework.Extensions.Blog;
 
 public static class PostCategoryQueryableExtension
 {
-    public static IQueryable<PostCategory> ApplyFilter(this IQueryable<PostCategory> query, DefaultPaginationFilter filter)
+    public static IQueryable<PostCategoryEntity> ApplyFilter(this IQueryable<PostCategoryEntity> query, DefaultPaginationFilter filter)
     {
         if (!string.IsNullOrEmpty(filter.Keyword))
             query = query.Where(x => x.Description.ToLower().Contains(filter.Keyword.ToLower().Trim()));
@@ -16,7 +16,7 @@ public static class PostCategoryQueryableExtension
         return query;
     }
 
-    public static IQueryable<PostCategory> ApplySort(this IQueryable<PostCategory> query, SortByEnum? sortBy)
+    public static IQueryable<PostCategoryEntity> ApplySort(this IQueryable<PostCategoryEntity> query, SortByEnum? sortBy)
     {
         return sortBy switch
         {

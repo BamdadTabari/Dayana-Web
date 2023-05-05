@@ -6,69 +6,39 @@ using DayanaWeb.Shared.Basic.Classes;
 using Microsoft.EntityFrameworkCore;
 
 namespace DayanaWeb.Server.EntityFramework.Repositories.Blog;
-public interface IPostRepository : IRepository<Post>
+public interface IPostRepository : IRepository<PostEntity>
 {
-    Task<Post> GetPostByIdAsync(long id);
-    Task<Post> GetPostByPostNameAsync(string Postname);
-    Task<PaginatedList<Post>> GetPostsByFilterAsync(DefaultPaginationFilter filter);
+    Task<PostEntity> GetByIdAsync(long id);
+    Task<PaginatedList<PostEntity>> GetListByFilterAsync(DefaultPaginationFilter filter);
+    Task<List<PostEntity>> GetAllAsync();
 }
 
-public class PostRepository : Repository<Post>, IPostRepository
+public class PostRepository : Repository<PostEntity>, IPostRepository
 {
-    private readonly IQueryable<Post> _queryable;
+    private readonly IQueryable<PostEntity> _queryable;
 
     public PostRepository(DataContext context) : base(context)
     {
-        _queryable = DbContext.Set<Post>();
+        _queryable = DbContext.Set<PostEntity>();
     }
 
-    public async Task<Post> GetPostByIdAsync(long id)
+    public async Task<PostEntity> GetByIdAsync(long id) =>
+         await _queryable.SingleOrDefaultAsync(x => x.Id == id) ?? throw new NullReferenceException();
+
+    public async Task<List<PostEntity>> GetAllAsync() => await _queryable.ToListAsync();
+
+    public async Task<PaginatedList<PostEntity>> GetListByFilterAsync(DefaultPaginationFilter filter)
     {
-        var data = await _queryable
-    .SingleOrDefaultAsync(x => x.Id == id);
+        var query = _queryable.AsNoTracking().ApplyFilter(filter).ApplySort(filter.SortBy);
+        var dataTotalCount = _queryable.Count();
 
-        if (data == null)
-            throw new NullReferenceException(GenericErrors<Post>.NotFoundError("id").ToString());
-
-        return data;
-    }
-
-    public async Task<Post> GetPostByPostNameAsync(string Postname)
-    {
-        var data = await _queryable
-         .SingleOrDefaultAsync(x => x.Name.ToLower() == Postname.ToLower());
-
-        if (data == null)
-            throw new NullReferenceException(GenericErrors<Post>.NotFoundError("name").ToString());
-        return data;
-    }
-
-    public async Task<PaginatedList<Post>> GetPostsByFilterAsync(DefaultPaginationFilter filter)
-    {
-        try
+        return new PaginatedList<PostEntity>()
         {
-            var query = _queryable;
-            query = query.AsNoTracking();
-
-            query = query.ApplyFilter(filter);
-            query = query.ApplySort(filter.SortBy);
-
-            var dataTotalCount = _queryable.Count();
-
-            return new PaginatedList<Post>()
-            {
-                Data = await query.Paginate(filter.Page, filter.PageSize).ToListAsync(),
-                TotalCount = dataTotalCount,
-                TotalPages = (int)Math.Ceiling((decimal)dataTotalCount / (decimal)filter.PageSize),
-                Page = filter.Page,
-                PageSize = filter.PageSize
-            };
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+            Data = await query.Paginate(filter.Page, filter.PageSize).ToListAsync(),
+            TotalCount = dataTotalCount,
+            TotalPages = (int)Math.Ceiling((decimal)dataTotalCount / (decimal)filter.PageSize),
+            Page = filter.Page,
+            PageSize = filter.PageSize
+        };
     }
 }
-

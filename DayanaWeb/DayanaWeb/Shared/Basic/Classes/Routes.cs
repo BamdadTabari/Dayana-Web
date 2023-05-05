@@ -1,4 +1,6 @@
-﻿namespace DayanaWeb.Shared.Basic.Classes;
+﻿using System.Numerics;
+
+namespace DayanaWeb.Shared.Basic.Classes;
 
 public record CRUDRouts
 {
@@ -16,3 +18,9 @@ public record ShopRoutes
     public const string ProductCategory = ShopApi + "product-category/";
 }
 
+public record BlogRoutes
+{
+    public const string BlogApi = "blog-api/";
+    public const string PostCategory = BlogApi + "blog-post-category/";
+    public const string Post = BlogApi + "blog-post/";
+}

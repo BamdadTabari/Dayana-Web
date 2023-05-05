@@ -7,42 +7,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DayanaWeb.Server.EntityFramework.Repositories.Blog;
 
-public interface IPostFeedBackRepository : IRepository<PostFeedBack>
+public interface IPostFeedBackRepository : IRepository<PostFeedBackEntity>
 {
-    Task<PostFeedBack> GetPostFeedBackByIdAsync(long id);
-    Task<PaginatedList<PostFeedBack>> GetPostFeedBacksByFilterAsync(DefaultPaginationFilter filter);
+    Task<PostFeedBackEntity> GetByIdAsync(long id);
+    Task<PaginatedList<PostFeedBackEntity>> GetListByFilterAsync(DefaultPaginationFilter filter);
+    Task<List<PostFeedBackEntity>> GetAllAsync();
 }
 
-
-public class PostFeedBackRepository : Repository<PostFeedBack>, IPostFeedBackRepository
+public class PostFeedBackRepository : Repository<PostFeedBackEntity>, IPostFeedBackRepository
 {
-    private readonly IQueryable<PostFeedBack> _queryable;
+    private readonly IQueryable<PostFeedBackEntity> _queryable;
 
     public PostFeedBackRepository(DataContext context) : base(context)
     {
-        _queryable = DbContext.Set<PostFeedBack>();
+        _queryable = DbContext.Set<PostFeedBackEntity>();
     }
 
-    public async Task<PostFeedBack> GetPostFeedBackByIdAsync(long id)
+    public async Task<PostFeedBackEntity> GetByIdAsync(long id) =>
+         await _queryable.SingleOrDefaultAsync(x => x.Id == id) ?? throw new NullReferenceException();
+
+    public async Task<List<PostFeedBackEntity>> GetAllAsync() => await _queryable.ToListAsync();
+
+    public async Task<PaginatedList<PostFeedBackEntity>> GetListByFilterAsync(DefaultPaginationFilter filter)
     {
-        var data = await _queryable.SingleOrDefaultAsync(x => x.Id == id);
-
-        if (data == null)
-            throw new NullReferenceException(GenericErrors<PostFeedBack>.NotFoundError("id").ToString());
-
-        return data;
-    }
-
-    public async Task<PaginatedList<PostFeedBack>> GetPostFeedBacksByFilterAsync(DefaultPaginationFilter filter)
-    {
-        var query = _queryable;
-        query = query.AsNoTracking();
-
-        query = query.ApplyFilter(filter);
-        query = query.ApplySort(filter.SortBy);
+        var query = _queryable.AsNoTracking().ApplyFilter(filter).ApplySort(filter.SortBy);
         var dataTotalCount = _queryable.Count();
 
-        return new PaginatedList<PostFeedBack>()
+        return new PaginatedList<PostFeedBackEntity>()
         {
             Data = await query.Paginate(filter.Page, filter.PageSize).ToListAsync(),
             TotalCount = dataTotalCount,
