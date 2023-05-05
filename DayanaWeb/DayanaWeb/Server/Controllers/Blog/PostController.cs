@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using DayanaWeb.Server.EntityFramework.Common;
+using DayanaWeb.Server.EntityFramework.Entities.Blog;
+using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -15,48 +18,48 @@ public class PostController : ControllerBase
         _mapper = mapper;
     }
 
-    [Route(Routes.Post + "add-post")]
+    [Route(BlogRoutes.Post + CRUDRouts.Create)]
     [HttpPost]
-    public async Task AddPost([FromBody] string data)
+    public async Task Create([FromBody] string data)
     {
         var dto = JsonSerializer.Deserialize<PostDto>(data);
-        var entity = _mapper.Map<Post>(dto);
+        var entity = _mapper.Map<PostEntity>(dto);
         await _unitOfWork.Posts.AddAsync(entity);
         await _unitOfWork.CommitAsync();
     }
 
-    [Route(Routes.Post + "get-post/{data}")]
+    [Route(BlogRoutes.Post + CRUDRouts.ReadOneById + "/{data}")]
     [HttpGet]
-    public async Task<PostDto> GetPost([FromRoute] long data)
+    public async Task<PostDto> GetById([FromRoute] long data)
     {
-        var entity = await _unitOfWork.Posts.GetPostByIdAsync(data);
+        var entity = await _unitOfWork.Posts.GetByIdAsync(data);
         var dto = _mapper.Map<PostDto>(entity);
         return dto;
     }
 
-    [Route(Routes.Post + "get-post-list-by-filter")]
+    [Route(BlogRoutes.Post + CRUDRouts.ReadListByFilter)]
     [HttpPost]
-    public async Task<PaginatedList<Post>> GetPostListByFilter([FromBody] string data)
+    public async Task<PaginatedList<PostEntity>> GetListByFilter([FromBody] string data)
     {
         var paginationData = JsonSerializer.Deserialize<DefaultPaginationFilter>(data);
-        return await _unitOfWork.Posts.GetPostsByFilterAsync(paginationData ?? throw new NullReferenceException(CustomizedError<DefaultPaginationFilter>.NullRefError().ToString()));
+        return await _unitOfWork.Posts.GetListByFilterAsync(paginationData ?? throw new NullReferenceException(CustomizedError<DefaultPaginationFilter>.NullRefError().ToString()));
     }
 
-    [Route(Routes.Post + "delete-post/{data}")]
+    [Route(BlogRoutes.Post + CRUDRouts.Delete + "/{data}")]
     [HttpDelete]
-    public async Task DeletePost([FromRoute] long data)
+    public async Task Delete([FromRoute] long data)
     {
-        var entity = await _unitOfWork.Posts.GetPostByIdAsync(data);
+        var entity = await _unitOfWork.Posts.GetByIdAsync(data);
         _unitOfWork.Posts.Remove(entity);
         await _unitOfWork.CommitAsync();
     }
 
-    [Route(Routes.Post + "update-post")]
+    [Route(BlogRoutes.Post + CRUDRouts.Update)]
     [HttpPut]
-    public async Task UpdatePost([FromBody] string data)
+    public async Task Update([FromBody] string data)
     {
         var dto = JsonSerializer.Deserialize<PostDto>(data);
-        var entity = _mapper.Map<Post>(dto);
+        var entity = _mapper.Map<PostEntity>(dto);
         _unitOfWork.Posts.Update(entity);
         await _unitOfWork.CommitAsync();
     }

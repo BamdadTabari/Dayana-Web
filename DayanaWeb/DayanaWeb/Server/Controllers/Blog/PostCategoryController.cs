@@ -30,7 +30,7 @@ public class PostCategoryController : ControllerBase
 
     [Route(BlogRoutes.PostCategory + CRUDRouts.ReadAll)]
     [HttpGet]
-    public async Task<List<PostCategoryDto>> GetPostCategories()
+    public async Task<List<PostCategoryDto>> GetAll()
     {
         var entityList = await _unitOfWork.PostCategories.GetAllAsync();
         var dtoList = _mapper.Map<List<PostCategoryDto>>(entityList);
@@ -38,7 +38,7 @@ public class PostCategoryController : ControllerBase
         return dtoList;
     }
 
-    [Route(BlogRoutes.PostCategory + CRUDRouts.ReadOneById)]
+    [Route(BlogRoutes.PostCategory + CRUDRouts.ReadOneById + "/{data}")]
     [HttpGet]
     public async Task<PostCategoryDto> GetById([FromRoute] long data)
     {

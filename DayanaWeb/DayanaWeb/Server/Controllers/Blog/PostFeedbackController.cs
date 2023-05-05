@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using DayanaWeb.Server.EntityFramework.Common;
+using DayanaWeb.Server.EntityFramework.Entities.Blog;
+using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -15,48 +18,48 @@ public class PostFeedbackFeedBackController : ControllerBase
         _mapper = mapper;
     }
 
-    [Route(Routes.PostFeedback + "add-post-feedback")]
+    [Route(BlogRoutes.Post + CRUDRouts.Create)]
     [HttpPost]
-    public async Task AddPostFeedback([FromBody] string data)
+    public async Task Create([FromBody] string data)
     {
         var dto = JsonSerializer.Deserialize<PostFeedBackDto>(data);
-        var entity = _mapper.Map<PostFeedBack>(dto);
+        var entity = _mapper.Map<PostFeedBackEntity>(dto);
         await _unitOfWork.PostFeedBacks.AddAsync(entity);
         await _unitOfWork.CommitAsync();
     }
 
-    [Route(Routes.PostFeedback + "get-post-feedback/{data}")]
+    [Route(BlogRoutes.Post + CRUDRouts.ReadOneById +"/{data}")]
     [HttpGet]
-    public async Task<PostFeedBackDto> GetPostFeedback([FromRoute] long data)
+    public async Task<PostFeedBackDto> GetById([FromRoute] long data)
     {
-        var entity = await _unitOfWork.PostFeedBacks.GetPostFeedBackByIdAsync(data);
+        var entity = await _unitOfWork.PostFeedBacks.GetByIdAsync(data);
         var dto = _mapper.Map<PostFeedBackDto>(entity);
         return dto;
     }
 
-    [Route(Routes.PostFeedback + "get-post-feedback-list-by-filter")]
+    [Route(BlogRoutes.Post + CRUDRouts.ReadListByFilter)]
     [HttpPost]
-    public async Task<PaginatedList<PostFeedBack>> GetPostFeedBackListByFilter([FromBody] string data)
+    public async Task<PaginatedList<PostFeedBackEntity>> GetListByFilter([FromBody] string data)
     {
         var paginationData = JsonSerializer.Deserialize<DefaultPaginationFilter>(data);
-        return await _unitOfWork.PostFeedBacks.GetPostFeedBacksByFilterAsync(paginationData ?? throw new NullReferenceException(CustomizedError<DefaultPaginationFilter>.NullRefError().ToString()));
+        return await _unitOfWork.PostFeedBacks.GetListByFilterAsync(paginationData ?? throw new NullReferenceException(CustomizedError<DefaultPaginationFilter>.NullRefError().ToString()));
     }
 
-    [Route(Routes.PostFeedback + "delete-post-feedback/{data}")]
+    [Route(BlogRoutes.Post + CRUDRouts.Delete + "/{data}")]
     [HttpDelete]
-    public async Task DeletePostFeedback([FromRoute] long data)
+    public async Task Delete([FromRoute] long data)
     {
-        var entity = await _unitOfWork.PostFeedBacks.GetPostFeedBackByIdAsync(data);
+        var entity = await _unitOfWork.PostFeedBacks.GetByIdAsync(data);
         _unitOfWork.PostFeedBacks.Remove(entity);
         await _unitOfWork.CommitAsync();
     }
 
-    [Route(Routes.PostFeedback + "update-post-feedback")]
+    [Route(BlogRoutes.Post + CRUDRouts.ReadOneById)]
     [HttpPut]
-    public async Task UpdatePostFeedback([FromBody] string data)
+    public async Task Update([FromBody] string data)
     {
         var dto = JsonSerializer.Deserialize<PostFeedBackDto>(data);
-        var entity = _mapper.Map<PostFeedBack>(dto);
+        var entity = _mapper.Map<PostFeedBackEntity>(dto);
         _unitOfWork.PostFeedBacks.Update(entity);
         await _unitOfWork.CommitAsync();
     }
