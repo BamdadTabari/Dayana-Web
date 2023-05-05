@@ -1,0 +1,13 @@
+﻿<MudStack Justify="Justify.Center" Class="mt-3">
+    <MudContainer Class="object-center" MaxWidth="MaxWidth.ExtraLarge">
+        <MudPaper Outlined="true">
+            <MudForm Class="m-5">
+                <MudTextField T="string" Label="Post Category Name" Required="true" RequiredError="pcn is required!"
+                              @bind-Value="model.Name" />
+            </MudForm>
+            <MudButton @onclick="Add" Variant="Variant.Filled" Color="Color.Success" Class="m-5">
+                Add New Post Category
+            </MudButton>
+        </MudPaper>
+    </MudContainer>
+</MudStack>

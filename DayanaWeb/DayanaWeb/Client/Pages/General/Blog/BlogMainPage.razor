@@ -1,0 +1,21 @@
+﻿@page "/dayana-blog"
+<h3>BlogMainPage</h3>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="m-2">
+    <MudPaper Outlined="true" >
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @{
+                foreach (var post in model)
+                {
+                    <MudItem  lg="12" xl="12" md="12" sm="12" xs="12" Class="m-2 border-2 border-primary rounded" >
+                        <MudText Class="m-2" Typo="Typo.h1">@post.Name</MudText>
+                        <MudText Class="m-2" Typo="Typo.caption">@post.Description</MudText>
+                        <MudButton Class="m-2" Color="Color.Info" Variant="Variant.Filled" OnClick="@(()=>OnReadMoreButtonClicked(post.Id))">Read More</MudButton>
+                    </MudItem>
+                }
+            }
+        </MudGrid>
+    </MudPaper>
+</MudContainer>
+
+<MudPagination Color="Color.Primary" Count="_totalPagesCount" SelectedChanged="OnPageChange" BoundaryCount="2" MiddleCount="3"/>

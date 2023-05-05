@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace DayanaWeb.Shared.Basic.Classes;
+﻿namespace DayanaWeb.Shared.Basic.Classes;
 
 public record CRUDRouts
 {

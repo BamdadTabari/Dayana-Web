@@ -1,0 +1,15 @@
+﻿@page "/cp-pc-edit/{Id}"
+
+<MudStack Justify="Justify.Center" Class="mt-3">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+        <MudPaper Outlined="true">
+              <MudForm>
+                  <MudTextField T="string" Label="Post Category Name" Required="true" RequiredError="pcn is required!"
+                                @bind-Value="model.Name" />
+              </MudForm>
+              <MudButton @onclick="OnEdit" Variant="Variant.Filled" Color="Color.Success">
+                  Edit Post Category
+              </MudButton>
+        </MudPaper>
+    </MudContainer>
+</MudStack>

@@ -1,0 +1,14 @@
+@page "/blog-post-page/{Id:long}"
+
+<MudStack Justify="Justify.Center" Class="mt-3">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+        <MudPaper Outlined="true">
+            <MudText Typo="Typo.h3">@model.Name</MudText>
+            <MudText Typo="Typo.h5">author: @model.Author</MudText>
+            <MudText>@model.Content</MudText>
+        </MudPaper>
+    </MudContainer>
+</MudStack>
+
+<AddPostComment PostId="Id"/>
+<PostComments PostId="Id"/>

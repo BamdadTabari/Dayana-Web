@@ -1,0 +1,35 @@
+﻿@page "/post-control-EDSEWHD"
+@using DayanaWeb.Shared.EntityFramework.Entities.Blog;
+
+<MudStack Justify="Justify.Center" Class="mt-3">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+        <MudPaper Outlined="true">
+            <MudTable ServerData="@(new Func<TableState, Task<TableData<Post>>>(ServerReload))"
+                      Hover="true" @ref="table" Bordered="true" Class="mt-5">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Post</MudText>
+                    <MudSpacer/>
+                    <MudTextField T="string" ValueChanged="@(s => OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0">
+                    </MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Author</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Post Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Author Name">@context.Author</MudTd>
+                    <MudTd DataLabel="Actions">
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => OnDelete(context.Id))"></MudIconButton>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Secondary" OnClick="@(() => Edit(context.Id))"></MudIconButton>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager/>
+                </PagerContent>
+            </MudTable>
+        </MudPaper>
+    </MudContainer>
+</MudStack>

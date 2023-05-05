@@ -1,5 +1,6 @@
 ﻿@using System.Net.Http
 @using System.Net.Http.Json
+@using DayanaWeb.Shared.Basic.Services;
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
@@ -8,3 +9,13 @@
 @using Microsoft.JSInterop
 @using DayanaWeb.Client
 @using DayanaWeb.Client.Shared
+@using MudBlazor
+
+@inject IHttpService _httpService
+@inject ISnackbar _snackbar
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
+@inject IJSRuntime _JsRuntime;
+@*@inject IAuthenticationService _authenticationService;
+@inject ISessionStorageService _sessionStorageService;
+@inject AuthenticationStateProvider _apiAuthenticationStateProvider*@

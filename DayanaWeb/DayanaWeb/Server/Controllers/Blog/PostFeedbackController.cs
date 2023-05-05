@@ -28,7 +28,7 @@ public class PostFeedbackFeedBackController : ControllerBase
         await _unitOfWork.CommitAsync();
     }
 
-    [Route(BlogRoutes.Post + CRUDRouts.ReadOneById +"/{data}")]
+    [Route(BlogRoutes.Post + CRUDRouts.ReadOneById + "/{data}")]
     [HttpGet]
     public async Task<PostFeedBackDto> GetById([FromRoute] long data)
     {
