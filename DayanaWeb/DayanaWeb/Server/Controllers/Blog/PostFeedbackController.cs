@@ -42,7 +42,7 @@ public class PostFeedbackFeedBackController : ControllerBase
     public async Task<PaginatedList<PostFeedBackEntity>> GetListByFilter([FromBody] string data)
     {
         var paginationData = JsonSerializer.Deserialize<DefaultPaginationFilter>(data);
-        return await _unitOfWork.PostFeedBacks.GetListByFilterAsync(paginationData ?? throw new NullReferenceException(CustomizedError<DefaultPaginationFilter>.NullRefError().ToString()));
+        return await _unitOfWork.PostFeedBacks.GetListByFilterAsync(paginationData ?? throw new NullReferenceException());
     }
 
     [Route(BlogRoutes.Post + CRUDRouts.Delete + "/{data}")]
