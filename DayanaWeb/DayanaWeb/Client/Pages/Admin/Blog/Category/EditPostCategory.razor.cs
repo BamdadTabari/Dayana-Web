@@ -1,4 +1,4 @@
-﻿using DayanaWeb.Shared.BaseControl;
+﻿using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -13,12 +13,12 @@ public partial class EditPostCategory
     PostCategoryDto model = new();
     protected override async Task OnInitializedAsync()
     {
-        model = await _httpService.GetValue<PostCategoryDto>(Routes.PostCategory + $"get-post-category/{Id}");
+        model = await _httpService.GetValue<PostCategoryDto>(BlogRoutes.PostCategory + CRUDRouts.ReadOneById + $"/{Id}");
     }
 
     private async Task OnEdit()
     {
-        var response = await _httpService.PutValue(Routes.PostCategory + "update-post-category", model);
+        var response = await _httpService.PutValue(BlogRoutes.PostCategory + CRUDRouts.Update, model);
         if (response.StatusCode == HttpStatusCode.OK)
         {
             _snackbar.Add("Post Category Updated Succesfully", Severity.Success);

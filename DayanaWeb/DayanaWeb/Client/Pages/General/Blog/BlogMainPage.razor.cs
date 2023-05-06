@@ -1,6 +1,5 @@
-﻿using DayanaWeb.Shared.BaseControl;
+﻿using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
-
 
 namespace DayanaWeb.Client.Pages.General.Blog;
 
@@ -17,7 +16,7 @@ public partial class BlogMainPage
     private async Task GetPostDtosAsync()
     {
         DefaultPaginationFilter paginationFilter = new(_selected, 10);
-        var paginatedData = await _httpService.GetPagedValue<PostDto>(Routes.Post + "get-post-list-by-filter", paginationFilter);
+        var paginatedData = await _httpService.GetPagedValue<PostDto>(BlogRoutes.PostCategory + CRUDRouts.ReadListByFilter, paginationFilter);
         model = paginatedData.Data;
         _totalPagesCount = paginatedData.TotalPages;
         this.StateHasChanged();

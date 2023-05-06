@@ -1,4 +1,4 @@
-using DayanaWeb.Shared.BaseControl;
+using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Components;
 
@@ -12,7 +12,7 @@ public partial class BlogPostPage
 
     protected override async Task OnInitializedAsync()
     {
-        model = await _httpService.GetValue<PostDto>(Routes.Post + $"get-post/{Id}");
+        model = await _httpService.GetValue<PostDto>(BlogRoutes.Post + CRUDRouts.ReadOneById + $"/{Id}");
 
     }
 }

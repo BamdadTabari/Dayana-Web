@@ -52,7 +52,7 @@ public class PostCategoryController : ControllerBase
     public async Task<PaginatedList<PostCategoryEntity>> GetListByFilter([FromBody] string data)
     {
         var paginationData = JsonSerializer.Deserialize<DefaultPaginationFilter>(data);
-        return await _unitOfWork.PostCategories.GetListByFilterAsync(paginationData ?? throw new NullReferenceException(CustomizedError<DefaultPaginationFilter>.NullRefError().ToString()));
+        return await _unitOfWork.PostCategories.GetListByFilterAsync(paginationData ?? throw new NullReferenceException());
     }
 
     [Route(BlogRoutes.PostCategory + CRUDRouts.Delete + "/{data:long}")]

@@ -1,4 +1,5 @@
-﻿using DayanaWeb.Server.EntityFramework.Common;
+﻿using DayanaWeb.Server.Basic.Classes;
+using DayanaWeb.Server.EntityFramework.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

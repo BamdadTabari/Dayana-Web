@@ -1,4 +1,4 @@
-﻿using DayanaWeb.Shared.BaseControl;
+﻿using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using MudBlazor;
 using System.Net;
@@ -11,7 +11,7 @@ public partial class AddPostCategory
 
     public async Task Add()
     {
-        var response = await _httpService.PostValue(Routes.PostCategory + "add-post-category", model);
+        var response = await _httpService.PostValue(BlogRoutes.PostCategory + CRUDRouts.Create, model);
         if (response.StatusCode == HttpStatusCode.OK)
         {
             _snackbar.Add("Post Category Created Succesfully", Severity.Success);

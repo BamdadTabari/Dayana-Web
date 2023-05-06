@@ -1,4 +1,4 @@
-﻿using DayanaWeb.Shared.BaseControl;
+﻿using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -14,7 +14,7 @@ public partial class AddPostComment
     public async Task Add()
     {
         model.PostId = PostId;
-        var response = await _httpService.PostValue(Routes.PostFeedback + "add-post-feedback", model);
+        var response = await _httpService.PostValue(BlogRoutes.Post + CRUDRouts.Create, model);
         if (response.StatusCode == HttpStatusCode.OK)
         {
             _snackbar.Add("Post Comment Created Succesfully", Severity.Success);

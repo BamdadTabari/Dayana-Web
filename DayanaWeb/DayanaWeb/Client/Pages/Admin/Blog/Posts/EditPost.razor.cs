@@ -1,4 +1,4 @@
-﻿using DayanaWeb.Shared.BaseControl;
+﻿using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -15,13 +15,13 @@ public partial class EditPost
     private long categorySelectedValue { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        model = await _httpService.GetValue<PostDto>(Routes.Post + $"get-post/{Id}");
-        categoryList = await _httpService.GetValueList<PostCategoryDto>(Routes.PostCategory + "get-post-categories");
+        model = await _httpService.GetValue<PostDto>(BlogRoutes.PostCategory + CRUDRouts.ReadOneById + "/{Id}");
+        categoryList = await _httpService.GetValueList<PostCategoryDto>(BlogRoutes.PostCategory + CRUDRouts.ReadAll);
     }
 
     private async Task OnEdit()
     {
-        var response = await _httpService.PutValue(Routes.Post + "update-post", model);
+        var response = await _httpService.PutValue(BlogRoutes.PostCategory + CRUDRouts.Update, model);
         if (response.StatusCode == HttpStatusCode.OK)
         {
             _snackbar.Add("Post Updated Succesfully", Severity.Success);

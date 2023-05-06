@@ -1,26 +1,26 @@
 ﻿using DayanaWeb.Client.Shared;
-using DayanaWeb.Shared.BaseControl;
-using DayanaWeb.Shared.EntityFramework.Entities.Blog;
+using DayanaWeb.Shared.Basic.Classes;
+using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using MudBlazor;
 
 namespace DayanaWeb.Client.Pages.Admin.Blog.Posts;
 
 public partial class PostControlPage
 {
-    private IEnumerable<Post> pagedData;
-    private MudTable<Post> table;
+    private IEnumerable<PostDto> pagedData;
+    private MudTable<PostDto> table;
     private string searchString = "";
-    private Post selectedItem = null;
+    private PostDto selectedItem = null;
 
     /// <summary>
     /// getting the paged, filtered and ordered data from the server
     /// </summary>
-    private async Task<TableData<Post>> ServerReload(TableState state)
+    private async Task<TableData<PostDto>> ServerReload(TableState state)
     {
         DefaultPaginationFilter paginationFilter = new(state.Page, state.PageSize);
-        var paginatedData = await _httpService.GetPagedValue<Post>(Routes.Post + "get-post-list-by-filter", paginationFilter);
+        var paginatedData = await _httpService.GetPagedValue<PostDto>(BlogRoutes.PostCategory + CRUDRouts.ReadListByFilter, paginationFilter);
         pagedData = paginatedData.Data;
-        return new TableData<Post>() { TotalItems = paginatedData.TotalCount, Items = pagedData };
+        return new TableData<PostDto>() { TotalItems = paginatedData.TotalCount, Items = pagedData };
     }
 
     #region Delete
@@ -36,7 +36,7 @@ public partial class PostControlPage
         var dialogResult = await dialog.Result;
         if (dialogResult.Canceled == false)
         {
-            var response = await _httpService.DeleteValue(Routes.Post + $"delete-post/{id}");
+            var response = await _httpService.DeleteValue(BlogRoutes.PostCategory + CRUDRouts.Create + $"/{id}");
             if (response.IsSuccessStatusCode)
             {
                 _snackbar.Add("Post Deleted Succesfully", Severity.Success);

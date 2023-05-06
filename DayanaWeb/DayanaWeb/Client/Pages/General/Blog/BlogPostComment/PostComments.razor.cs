@@ -1,5 +1,5 @@
 ﻿using DayanaWeb.Client.Shared;
-using DayanaWeb.Shared.BaseControl;
+using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -21,7 +21,7 @@ public partial class PostComments
     private async Task GetPostCommentsDtosAsync()
     {
         DefaultPaginationFilter paginationFilter = new(_selected, 10);
-        var paginatedData = await _httpService.GetPagedValue<PostFeedBackDto>(Routes.PostFeedback + "get-post-feedback-list-by-filter", paginationFilter);
+        var paginatedData = await _httpService.GetPagedValue<PostFeedBackDto>(BlogRoutes.PostCategory + CRUDRouts.ReadListByFilter, paginationFilter);
         model = paginatedData.Data;
         _totalPagesCount = paginatedData.TotalPages;
         this.StateHasChanged();
@@ -42,7 +42,7 @@ public partial class PostComments
         var dialogResult = await dialog.Result;
         if (dialogResult.Canceled == false)
         {
-            var response = await _httpService.DeleteValue(Routes.PostFeedback + $"delete-post-feedback/{id}");
+            var response = await _httpService.DeleteValue(BlogRoutes.PostCategory + CRUDRouts.Delete + $"/{id}");
             if (response.IsSuccessStatusCode)
             {
                 _snackbar.Add("Post Comment Deleted Succesfully", Severity.Success);
