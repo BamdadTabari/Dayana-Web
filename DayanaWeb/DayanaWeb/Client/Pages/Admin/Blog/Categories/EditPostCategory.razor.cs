@@ -1,10 +1,11 @@
-﻿using DayanaWeb.Shared.Basic.Classes;
-using DayanaWeb.Shared.EntityFramework.DTO.Blog;
+﻿using DayanaWeb.Shared.EntityFramework.DTO.Blog;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Net;
+using DayanaWeb.Shared.Basic.Classes;
 
-namespace DayanaWeb.Client.Pages.Admin.Blog.Category;
+namespace DayanaWeb.Client.Pages.Admin.Blog.Categories;
 
 public partial class EditPostCategory
 {
@@ -13,7 +14,7 @@ public partial class EditPostCategory
     PostCategoryDto model = new();
     protected override async Task OnInitializedAsync()
     {
-        model = await _httpService.GetValue<PostCategoryDto>(BlogRoutes.PostCategory + CRUDRouts.ReadOneById + $"/{Id}");
+        model = await _httpService.GetValue<PostCategoryDto>(BlogRoutes.PostCategory + CRUDRouts.ReadOneById + $"{Id}");
     }
 
     private async Task OnEdit()

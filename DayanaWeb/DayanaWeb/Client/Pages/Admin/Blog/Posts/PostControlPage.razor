@@ -1,10 +1,11 @@
 ﻿@page "/post-control-EDSEWHD"
-@using DayanaWeb.Shared.EntityFramework.Entities.Blog;
+@using DayanaWeb.Shared.EntityFramework.DTO.Blog;
+
 
 <MudStack Justify="Justify.Center" Class="mt-3">
     <MudContainer MaxWidth="MaxWidth.ExtraLarge">
         <MudPaper Outlined="true">
-            <MudTable ServerData="@(new Func<TableState, Task<TableData<Post>>>(ServerReload))"
+            <MudTable ServerData="@(new Func<TableState, Task<TableData<PostDto>>>(ServerReload))"
                       Hover="true" @ref="table" Bordered="true" Class="mt-5">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Post</MudText>

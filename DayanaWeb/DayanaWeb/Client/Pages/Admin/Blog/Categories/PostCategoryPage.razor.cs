@@ -1,11 +1,12 @@
 ﻿using DayanaWeb.Client.Shared;
 using DayanaWeb.Shared.Basic.Classes;
 using DayanaWeb.Shared.EntityFramework.DTO.Blog;
+using Microsoft.AspNetCore.Components.Routing;
 using MudBlazor;
 
-namespace DayanaWeb.Client.Pages.Admin.Blog.Category;
+namespace DayanaWeb.Client.Pages.Admin.Blog.Categories;
 
-public partial class PostCategoryDtoPage
+public partial class PostCategoryPage
 {
     private IEnumerable<PostCategoryDto> pagedData;
     private MudTable<PostCategoryDto> table;
@@ -34,7 +35,7 @@ public partial class PostCategoryDtoPage
         var dialogResult = await dialog.Result;
         if (dialogResult.Canceled == false)
         {
-            var response = await _httpService.DeleteValue(BlogRoutes.PostCategory + CRUDRouts.Delete + $"/{id}");
+            var response = await _httpService.DeleteValue(BlogRoutes.PostCategory + CRUDRouts.Delete + $"{id}");
             if (response.IsSuccessStatusCode)
             {
                 _snackbar.Add("Post Category Deleted Succesfully", Severity.Success);
